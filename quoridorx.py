@@ -10,5 +10,5 @@ class QuoridorX (quo.Quoridor):
     def afficher(self):
         pyg.ouvrir_fenetre(self.grille)
 
-lol = QuoridorX(['sim', {'nom':'jul', 'murs':5, 'pos':(5,9)}], murs={'horizontaux':[(3,3), (5,3), (5,4)], 'verticaux':[(4,3), (4,5)]})
-lol.afficher()
+#lol = QuoridorX(['sim', {'nom':'jul', 'murs':5, 'pos':(5,9)}], murs={'horizontaux':[(3,3), (5,3), (5,4)], 'verticaux':[(4,3), (4,5)]})
+#lol.afficher()

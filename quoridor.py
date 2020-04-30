@@ -126,9 +126,9 @@ class Quoridor:
             raise QuoridorError(
                 "Le total des murs placés et plaçables n'est pas égal à 20.")
 
-    def afficher_damier_ascii(self, grille):
+    def afficher(self):
         '''
-        Retourne un chaine de caractères qui représente le tableau de jeu.
+        Présente le tableau de jeu.
         '''
         def placemurver(chaine, xy):
             '''
@@ -162,17 +162,17 @@ class Quoridor:
             chaine += '\n' + str(i) + ' | .   .   .   .   .   .   .   .   . |'
         chaine += '\n' + '--|-----------------------------------' + \
             '\n' + '  | 1   2   3   4   5   6   7   8   9'
-        joueur_x = grille['joueurs'][0]['pos'][0]
-        joueur_y = grille['joueurs'][0]['pos'][1]
-        cpu_x = grille['joueurs'][1]['pos'][0]
-        cpu_y = grille['joueurs'][1]['pos'][1]
+        joueur_x = self.grille['joueurs'][0]['pos'][0]
+        joueur_y = self.grille['joueurs'][0]['pos'][1]
+        cpu_x = self.grille['joueurs'][1]['pos'][0]
+        cpu_y = self.grille['joueurs'][1]['pos'][1]
         chaine = placepion(chaine, 1, joueur_x, joueur_y)
         chaine = placepion(chaine, 2, cpu_x, cpu_y)
-        for i in grille['murs']['horizontaux']:
+        for i in self.grille['murs']['horizontaux']:
             chaine = placemurhor(chaine, i)
-        for i in grille['murs']['verticaux']:
+        for i in self.grille['murs']['verticaux']:
             chaine = placemurver(chaine, i)
-        return 'Légende: 1=' + grille['joueurs'][0]['nom'] + ', 2=' + grille['joueurs'][1]['nom'] + '\n' + chaine
+        print('Légende: 1=' + self.grille['joueurs'][0]['nom'] + ', 2=' + self.grille['joueurs'][1]['nom'] + '\n' + chaine)
 
     def __str__(self):
         """Représentation en art ascii de l'état actuel de la partie.

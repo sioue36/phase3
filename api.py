@@ -9,18 +9,6 @@ import requests
 URL = "https://python.gel.ulaval.ca/quoridor/api"
 
 
-def lister_parties(idul):
-    '''
-    Retourne la liste des 20 dernières parties de l'idul passé en argument.
-    '''
-    rep = requests.get(URL + '/lister/', params={'idul': idul})
-    if rep.status_code == 200:
-        if 'message' in rep.json():
-            raise RuntimeError(rep.json()['message'])
-        return rep.json()['parties']
-    print(f"Le GET sur {URL + '/lister/'} a produit le code d'erreur {rep.status_code}.")
-
-
 def initialiser_partie(idul):
     '''
     Retourne un tuple (id de la partie, état de la partie).
