@@ -264,10 +264,10 @@ class Quoridor:
                                     [1]['pos']], self.grille['murs']['horizontaux'], self.grille['murs']['verticaux'])
         if joueur == 1:
             next_pos = nx.shortest_path(
-                graphe, self.grille['joueurs'][0]['pos'], 'B1')[1]
+                graphe, tuple(self.grille['joueurs'][0]['pos']), 'B1')[1]
         else:
             next_pos = nx.shortest_path(
-                graphe, self.grille['joueurs'][1]['pos'], 'B2')[1]
+                graphe, tuple(self.grille['joueurs'][1]['pos']), 'B2')[1]
         self.grille['joueurs'][joueur - 1]['pos'] = next_pos
         return ('D', next_pos)
 

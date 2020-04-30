@@ -38,7 +38,7 @@ if __name__ == "__main__":
     while not WIN:
         partie.afficher()
 
-#si le jeu est manuel
+        #si le jeu est manuel
         if not ARGS.automatique:
             #type de coup
             TYPE_COUP = input(
@@ -58,8 +58,10 @@ if __name__ == "__main__":
             POSITION = (POS_X, POS_Y)
             #coup serveur
             partie.grille = jouer_coup(ID_PARTIE, TYPE_COUP, POSITION)
-            WIN = partie.partie_terminée()
 
-#si le jeu est automatique
+        #si le jeu est automatique
         else:
-            pass
+            COUP = partie.jouer_coup(1)
+            partie.grille = jouer_coup(ID_PARTIE, COUP[0], COUP[1])
+
+        WIN = partie.partie_terminée()
