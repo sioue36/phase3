@@ -130,6 +130,13 @@ class Quoridor:
         '''
         Présente le tableau de jeu.
         '''
+        print(self)
+
+    def __str__(self):
+        """Représentation en art ascii de l'état actuel de la partie.
+
+        Cette représentation est la même que celle du projet précédent."""
+        
         def placemurver(chaine, xy):
             '''
             Ajoute un mur vertical à la position xy dans la grille.
@@ -172,13 +179,7 @@ class Quoridor:
             chaine = placemurhor(chaine, i)
         for i in self.grille['murs']['verticaux']:
             chaine = placemurver(chaine, i)
-        print('Légende: 1=' + self.grille['joueurs'][0]['nom'] + ', 2=' + self.grille['joueurs'][1]['nom'] + '\n' + chaine)
-
-    def __str__(self):
-        """Représentation en art ascii de l'état actuel de la partie.
-
-        Cette représentation est la même que celle du projet précédent."""
-        return self.afficher_damier_ascii(self.grille)
+        return 'Légende: 1=' + self.grille['joueurs'][0]['nom'] + ', 2=' + self.grille['joueurs'][1]['nom'] + '\n' + chaine
 
     def déplacer_jeton(self, joueur, position):
         """Déplace un jeton.

@@ -28,9 +28,12 @@ if __name__ == "__main__":
     ARGS = analyser_commande()
     ID_PARTIE = initialiser_partie(ARGS.idul)[0]
     GRILLE = initialiser_partie(ARGS.idul)[1]
-#cree l'instance "partie"  
+#GRAPHIQUE  
     if ARGS.graphique:
         partie = quoridorx.QuoridorX(GRILLE['joueurs'], GRILLE['murs'])
+        partie.automatique = ARGS.automatique
+        partie.id = ID_PARTIE
+#NON-GRAPHIQUE
     else:
         partie = quoridor.Quoridor(GRILLE['joueurs'], GRILLE['murs'])
 
