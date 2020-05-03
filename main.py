@@ -22,7 +22,7 @@ def analyser_commande():
                         help='Activer le mode graphique.')
     return parser.parse_args()
 
-
+import random
 if __name__ == "__main__":
 #initialise la grille de départ
     ARGS = analyser_commande()

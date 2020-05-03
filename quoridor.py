@@ -1,4 +1,5 @@
 import networkx as nx
+import random
 
 
 class QuoridorError(Exception):
@@ -261,16 +262,50 @@ class Quoridor:
             raise QuoridorError('La partie est déjà terminée.')
         if joueur != 1 and joueur != 2:
             raise QuoridorError('Le numéro du joueur est autre que 1 ou 2.')
+#tout est beau
         graphe = construire_graphe([self.grille['joueurs'][0]['pos'], self.grille['joueurs']
                                     [1]['pos']], self.grille['murs']['horizontaux'], self.grille['murs']['verticaux'])
-        if joueur == 1:
-            next_pos = nx.shortest_path(
-                graphe, tuple(self.grille['joueurs'][0]['pos']), 'B1')[1]
-        else:
-            next_pos = nx.shortest_path(
-                graphe, tuple(self.grille['joueurs'][1]['pos']), 'B2')[1]
+
+        path1 = nx.shortest_path(graphe, tuple(self.grille['joueurs'][0]['pos']), 'B1')
+        path2 = nx.shortest_path(graphe, tuple(self.grille['joueurs'][1]['pos']), 'B2')
+#si on est plus loin:
+        if len(path1) > len(path2) and self.grille['joueurs'][0]['murs'] != 0:
+            if random.random() + 1/len(path2) < 0.6:
+                #pour toutes les positions
+                potentielles = []
+                shortcut = []
+                for x in range(-1, 2):
+                    for y in range(0,2):
+                        potentielles.append((tuple(self.grille['joueurs'][1]['pos'])[0] + x, tuple(self.grille['joueurs'][1]['pos'])[1] + y))
+                #horizontaux
+                for case in potentielles:
+                    grille2 = self.grille
+                    grille2['murs']['horizontaux'].append(case)
+                    grille2['joueurs'][joueur - 1]['murs'] -= 1
+                    try:
+                        print('1')
+                        test_for_QuoridorError = Quoridor(grille2["joueurs"], grille2["murs"])
+                        print('2')
+                        temp = construire_graphe([grille2['joueurs'][0]['pos'], grille2['joueurs'][1]['pos']], grille2['murs']['horizontaux'], grille2['murs']['verticaux'])
+                        print('3')
+                        new_path2 = nx.shortest_path(temp, tuple(self.grille['joueurs'][1]['pos']), 'B2')
+                        print('4')
+                        shortcut.append(len(new_path2) - len(path2))
+                    except:
+                        shortcut.append(-1)
+                print(shortcut)
+
+
+
+
+
+
+#si on est plus proche:
+        next_pos = path1[1]
         self.grille['joueurs'][joueur - 1]['pos'] = next_pos
         return ('D', next_pos)
+
+        
 
     def partie_terminée(self):
         """Déterminer si la partie est terminée.

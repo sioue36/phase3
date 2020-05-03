@@ -52,38 +52,6 @@ class QuoridorX (quo.Quoridor):
                 placeMursHorizontaux(self.grille)
                 placeMursVerticaux(self.grille)
             pyglet.app.run()
-        
-
-
-    # def afficher(self):
-    #     self.window = pyglet.window.Window(width=500, height=500, caption='Quoridor')
-    #     self.refresh_fenetre()
-
-    # def refresh_fenetre(self):
-    #     nom_des_joueurs = pyglet.text.Label('Blanc : {}       Noir : {}'.format(self.grille['joueurs'][0]['nom'], self.grille['joueurs'][1]['nom']),
-    #                         x=self.window.width/2, y=self.window.height-5,
-    #                         anchor_x='center', anchor_y='top')
-    #     murs_a_placer = pyglet.text.Label('Murs : {}        Murs : {}'.format(self.grille['joueurs'][0]['murs'], self.grille['joueurs'][1]['murs']),
-    #                         x=self.window.width/2, y=self.window.height-25,
-    #                         anchor_x='center', anchor_y='top')
-    #     def allo(a):
-    #         print('allo')
-    #     pyglet.clock.schedule_interval(allo, 1)
-        
-    #     @self.window.event
-    #     def on_draw():
-    #         self.window.clear()
-    #         nom_des_joueurs.draw()
-    #         murs_a_placer.draw()
-    #         draw_quadrillé()
-    #         placeJoueurs(self.grille)
-    #         placeMursHorizontaux(self.grille)
-    #         placeMursVerticaux(self.grille)
-    #         pyglet.app.event_loop.exit()
-
-
-
-    #     pyglet.app.run()
 
 
 def draw_rectangle(largeur, hauteur, x, y):
