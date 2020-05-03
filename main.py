@@ -7,6 +7,7 @@ import argparse
 from api import initialiser_partie, jouer_coup
 import quoridor
 import quoridorx
+import time
 
 
 def analyser_commande():
@@ -64,6 +65,7 @@ if __name__ == "__main__":
 
         #si le jeu est automatique
         else:
+            time.sleep(0.35)
             COUP = partie.jouer_coup(1)
             partie.grille = jouer_coup(ID_PARTIE, COUP[0], COUP[1])
 
