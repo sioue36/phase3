@@ -3,6 +3,7 @@ import pyglet
 import time
 import api
 
+
 class QuoridorX (quo.Quoridor):
     
     def __init__(self, joueurs, murs=None):
@@ -31,9 +32,9 @@ class QuoridorX (quo.Quoridor):
 
             def allo(dt):
                 draw_quadrillé()
+
             pyglet.clock.schedule_interval(allo , 1)
             pyglet.app.run()
-        
         else:
             self.window = pyglet.window.Window(width=500, height=500, caption='Quoridor (Fermez la fenêtre pour entrer votre prochain coup)')
             @self.window.event
@@ -85,5 +86,3 @@ def placeJoueurs(grille):
     draw_rectangle(6, 6, x+2, y+2)
     draw_rectangle(4, 4, x+3, y+3)
     draw_rectangle(2, 2, x+4, y+4)
-    
-    
