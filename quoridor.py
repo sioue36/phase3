@@ -1,9 +1,13 @@
+# -*- coding: utf-8 -*-
+'''
+Module définissant la classe Quordidor.
+'''
+
 import networkx as nx
-import random
 
 
 class QuoridorError(Exception):
-    ''' 
+    '''
     Exception pour les erreurs de la classe Quoridor
     '''
     pass
@@ -28,11 +32,11 @@ class Quoridor:
         Args:
             joueurs (List): un itérable de deux joueurs dont le premier est toujours celui qui
                 débute la partie. Un joueur est soit une chaîne de caractères soit un dictionnaire.
-                
+
                 Dans le cas d'une chaîne, il s'agit du nom du joueur. Selon le rang du joueur dans
                 l'itérable, sa position est soit (5,1) soit (5,9), et chaque joueur peut
-                initialement placer 10 murs. 
-                
+                initialement placer 10 murs.
+
                 Dans le cas où l'argument est un dictionnaire,
                 celui-ci doit contenir une clé 'nom' identifiant le joueur, une clé 'murs'
                 spécifiant le nombre de murs qu'il peut encore placer, et une clé 'pos' qui
@@ -61,7 +65,10 @@ class Quoridor:
             raise QuoridorError(
                 "L'itérable de joueurs en contient un nombre différent de deux.")
         self.grille = {
-            "joueurs": [{"nom": None, "murs": None, "pos": None}, {"nom": None, "murs": None, "pos": None}],
+            "joueurs": [
+                {"nom": None, "murs": None, "pos": None},
+                {"nom": None, "murs": None, "pos": None}
+                ],
             "murs": {"horizontaux": [], "verticaux": []}
         }
         for i in range(2):
@@ -79,10 +86,11 @@ class Quoridor:
                     raise QuoridorError(
                         "Le nombre de murs qu'un joueur peut placer est plus grand que 10, ou négatif.")
                 self.grille['joueurs'][i]['pos'] = tuple(joueurs[i]['pos'])
-                if joueurs[i]['pos'][0] < 1 or joueurs[i]['pos'][0] > 9 or joueurs[i]['pos'][1] < 1 or joueurs[i]['pos'][1] > 9:
+                if joueurs[i]['pos'][0] < 1 or joueurs[i]['pos'][0] > 9 or \
+                    joueurs[i]['pos'][1] < 1 or joueurs[i]['pos'][1] > 9:
                     raise QuoridorError(
                         "La position d'un joueur est invalide.")
-        if murs != None:
+        if murs is not None:
             if type(murs) is not dict:
                 raise QuoridorError(
                     "L'argument 'murs' n'est pas un dictionnaire lorsque présent.")
@@ -96,11 +104,19 @@ class Quoridor:
                 if self.grille['murs']['horizontaux'][i] in murpareil:
                     raising = True
                 murpareil.append(self.grille['murs']['horizontaux'][i])
-                if self.grille['murs']['horizontaux'][i][0] == 9 or self.grille['murs']['horizontaux'][i][1] == 1:
+                if self.grille['murs']['horizontaux'][i][0] == 9 or \
+                    self.grille['murs']['horizontaux'][i][1] == 1:
                     raising = True
-                if (self.grille['murs']['horizontaux'][i][0] + 1, self.grille['murs']['horizontaux'][i][1] - 1) in self.grille['murs']['verticaux']:
+                if (self.grille['murs']['horizontaux'][i][0] + 1,
+                    self.grille['murs']['horizontaux'][i][1] - 1) \
+                        in self.grille['murs']['verticaux']:
                     raising = True
-                if (self.grille['murs']['horizontaux'][i][0] - 1, self.grille['murs']['horizontaux'][i][1]) in self.grille['murs']['horizontaux'] or (self.grille['murs']['horizontaux'][i][0] + 1, self.grille['murs']['horizontaux'][i][1]) in self.grille['murs']['horizontaux']:
+                if (self.grille['murs']['horizontaux'][i][0] - 1,
+                    self.grille['murs']['horizontaux'][i][1]) \
+                        in self.grille['murs']['horizontaux'] or \
+                            (self.grille['murs']['horizontaux'][i][0] + 1,
+                            self.grille['murs']['horizontaux'][i][1]) \
+                                in self.grille['murs']['horizontaux']:
                     raising = True
             murpareil = []
             for i in range(len(self.grille['murs']['verticaux'])):
@@ -111,9 +127,16 @@ class Quoridor:
                 murpareil.append(self.grille['murs']['verticaux'][i])
                 if self.grille['murs']['verticaux'][i][0] == 1 or self.grille['murs']['verticaux'][i][1] == 9:
                     raising = True
-                if (self.grille['murs']['verticaux'][i][0] - 1, self.grille['murs']['verticaux'][i][1] + 1) in self.grille['murs']['horizontaux']:
+                if (self.grille['murs']['verticaux'][i][0] - 1,
+                    self.grille['murs']['verticaux'][i][1] + 1) \
+                        in self.grille['murs']['horizontaux']:
                     raising = True
-                if (self.grille['murs']['verticaux'][i][0], self.grille['murs']['verticaux'][i][1] - 1) in self.grille['murs']['verticaux'] or (self.grille['murs']['verticaux'][i][0], self.grille['murs']['verticaux'][i][1] + 1) in self.grille['murs']['verticaux']:
+                if (self.grille['murs']['verticaux'][i][0],
+                    self.grille['murs']['verticaux'][i][1] - 1) \
+                        in self.grille['murs']['verticaux'] or \
+                            (self.grille['murs']['verticaux'][i][0],
+                            self.grille['murs']['verticaux'][i][1] + 1) \
+                                in self.grille['murs']['verticaux']:
                     raising = True
             if raising:
                 raise QuoridorError("La position d'un mur est invalide.")
@@ -123,7 +146,8 @@ class Quoridor:
                 raise QuoridorError("La position d'un mur est invalide.")
             if not nx.has_path(graphe, self.grille['joueurs'][1]['pos'], 'B2'):
                 raise QuoridorError("La position d'un mur est invalide.")
-        if self.grille['joueurs'][0]['murs'] + self.grille['joueurs'][1]['murs'] + len(self.grille['murs']['horizontaux']) + len(self.grille['murs']['verticaux']) != 20:
+        if self.grille['joueurs'][0]['murs'] + self.grille['joueurs'][1]['murs'] \
+            + len(self.grille['murs']['horizontaux']) + len(self.grille['murs']['verticaux']) != 20:
             raise QuoridorError(
                 "Le total des murs placés et plaçables n'est pas égal à 20.")
 
@@ -137,7 +161,7 @@ class Quoridor:
         """Représentation en art ascii de l'état actuel de la partie.
 
         Cette représentation est la même que celle du projet précédent."""
-        
+
         def placemurver(chaine, xy):
             '''
             Ajoute un mur vertical à la position xy dans la grille.
@@ -180,7 +204,8 @@ class Quoridor:
             chaine = placemurhor(chaine, i)
         for i in self.grille['murs']['verticaux']:
             chaine = placemurver(chaine, i)
-        return 'Légende: 1=' + self.grille['joueurs'][0]['nom'] + ', 2=' + self.grille['joueurs'][1]['nom'] + '\n' + chaine
+        return 'Légende: 1=' + self.grille['joueurs'][0]['nom'] \
+            + ', 2=' + self.grille['joueurs'][1]['nom'] + '\n' + chaine
 
     def déplacer_jeton(self, joueur, position):
         """Déplace un jeton.
@@ -254,7 +279,7 @@ class Quoridor:
         Raises:
             QuoridorError: Le numéro du joueur est autre que 1 ou 2.
             QuoridorError: La partie est déjà terminée.
-            
+
         Returns:
             Tuple[str, Tuple[int, int]]: Un tuple composé du type et de la position du coup joué.
         """
@@ -264,36 +289,46 @@ class Quoridor:
             raise QuoridorError('Le numéro du joueur est autre que 1 ou 2.')
         graphe = construire_graphe([self.grille['joueurs'][0]['pos'], self.grille['joueurs']
                                     [1]['pos']], self.grille['murs']['horizontaux'], self.grille['murs']['verticaux'])
-        path1 = nx.shortest_path(graphe, tuple(self.grille['joueurs'][0]['pos']), 'B1')
-        path2 = nx.shortest_path(graphe, tuple(self.grille['joueurs'][1]['pos']), 'B2')
+        path1 = nx.shortest_path(graphe, tuple(
+            self.grille['joueurs'][0]['pos']), 'B1')
+        path2 = nx.shortest_path(graphe, tuple(
+            self.grille['joueurs'][1]['pos']), 'B2')
         if len(path1) > len(path2) and self.grille['joueurs'][0]['murs'] != 0:
-                potentielles = []
-                shortcut = []
-                for x in range(-1, 2):
-                    for y in range(-1, 1):
-                        potentielles.append((tuple(self.grille['joueurs'][1]['pos'])[0] + x, tuple(self.grille['joueurs'][1]['pos'])[1] + y))
-                for case in potentielles:
-                    for sens in ('horizontaux', 'verticaux'):
-                        TEST = Quoridor(self.grille["joueurs"], self.grille["murs"])
-                        TEST.grille['joueurs'][joueur - 1]['murs'] = self.grille['joueurs'][joueur - 1]['murs']
-                        TEST.grille['murs'][sens].append(case)
-                        TEST.grille['joueurs'][0]['murs'] -= 1
-                        try:
-                            test_for_QuoridorError = Quoridor(TEST.grille["joueurs"], TEST.grille["murs"])
-                            temp = construire_graphe([TEST.grille['joueurs'][0]['pos'], TEST.grille['joueurs'][1]['pos']], TEST.grille['murs']['horizontaux'], TEST.grille['murs']['verticaux'])
-                            new_path2 = nx.shortest_path(temp, tuple(TEST.grille['joueurs'][1]['pos']), 'B2')
-                            new_path1 = nx.shortest_path(temp, tuple(TEST.grille['joueurs'][0]['pos']), 'B1')
-                            shortcut.append(len(new_path2) - len(path2) - (len(new_path1) - len(path1)))
-                        except:
-                            shortcut.append(-1)
-                        TEST.grille['murs'][sens].pop()
+            potentielles = []
+            shortcut = []
+            for x in range(-1, 2):
+                for y in range(-1, 1):
+                    potentielles.append((tuple(self.grille['joueurs'][1]['pos'])[
+                        0] + x, tuple(self.grille['joueurs'][1]['pos'])[1] + y))
+            for case in potentielles:
+                for sens in ('horizontaux', 'verticaux'):
+                    test = Quoridor(
+                        self.grille["joueurs"], self.grille["murs"])
+                    test.grille['joueurs'][joueur -
+                                        1]['murs'] = self.grille['joueurs'][joueur - 1]['murs']
+                    test.grille['murs'][sens].append(case)
+                    test.grille['joueurs'][0]['murs'] -= 1
+                    try:
+                        testQuoridorError = Quoridor(
+                            test.grille["joueurs"], test.grille["murs"])
+                        temp = construire_graphe([test.grille['joueurs'][0]['pos'], test.grille['joueurs']
+                                                [1]['pos']], test.grille['murs']['horizontaux'], test.grille['murs']['verticaux'])
+                        new_path2 = nx.shortest_path(temp, tuple(
+                            test.grille['joueurs'][1]['pos']), 'B2')
+                        new_path1 = nx.shortest_path(temp, tuple(
+                            test.grille['joueurs'][0]['pos']), 'B1')
+                        shortcut.append(
+                            len(new_path2) - len(path2) - (len(new_path1) - len(path1)))
+                    except:
+                        shortcut.append(-1)
+                    test.grille['murs'][sens].pop()
 
-                if max(shortcut) > 0:
-                    for i in range(len(shortcut)):
-                        if shortcut[i] == max(shortcut):
-                            if i % 2 == 1:
-                                return ('MV', potentielles[int(i//2)])
-                            return ('MH', potentielles[int(i/2)])
+            if max(shortcut) > 0:
+                for i in range(len(shortcut)):
+                    if shortcut[i] == max(shortcut):
+                        if i % 2 == 1:
+                            return ('MV', potentielles[int(i//2)])
+                        return ('MH', potentielles[int(i/2)])
         next_pos = path1[1]
         self.grille['joueurs'][joueur - 1]['pos'] = next_pos
         return ('D', next_pos)
@@ -342,7 +377,7 @@ class Quoridor:
             raise QuoridorError("Le joueur a déjà placé tous ses murs.")
         self.grille['joueurs'][joueur - 1]['murs'] -= 1
         self.grille['murs'][orientation].append(position)
-        test_for_QuoridorError = Quoridor(
+        testQuoridorError = Quoridor(
             self.grille["joueurs"], self.grille["murs"])
 
 

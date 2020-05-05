@@ -18,19 +18,24 @@ def initialiser_partie(idul):
         if 'message' in rep.json():
             raise RuntimeError(rep.json()['message'])
         return (rep.json()['id'], rep.json()['état'])
-    print(f"Le GET sur {URL + '/initialiser/'} a produit le code d'erreur {rep.status_code}.")
+    print(
+        f"Le GET sur {URL + '/initialiser/'} a produit le code d'erreur {rep.status_code}.")
+    return None
 
 
 def jouer_coup(id_partie, type_coup, position):
     '''
-    Prend en argument l'identifiant de la partie, le type de coup et la position puis 
+    Prend en argument l'identifiant de la partie, le type de coup et la position puis
     retourne l'état de la partie après que le serveur aie joué son coup.
     '''
-    rep = requests.post(URL + '/jouer/', data={'id': id_partie, 'type': type_coup, 'pos': position})
+    rep = requests.post(
+        URL + '/jouer/', data={'id': id_partie, 'type': type_coup, 'pos': position})
     if rep.status_code == 200:
         if 'message' in rep.json():
             raise RuntimeError(rep.json()['message'])
         if 'gagnant' in rep.json():
             raise StopIteration(rep.json()['gagnant'])
         return rep.json()["état"]
-    print(f"Le GET sur {URL + '/jouer/'} a produit le code d'erreur {rep.status_code}.")
+    print(
+        f"Le GET sur {URL + '/jouer/'} a produit le code d'erreur {rep.status_code}.")
+    return None
